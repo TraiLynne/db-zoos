@@ -78,7 +78,7 @@ server.get('/api/zoos/:id', async (req, res) => {
 
   try {
     const zoo = await db('zoos').where({
-      id: id
+      id
     })
 
     zoo ?
@@ -107,7 +107,7 @@ server.put('/api/zoos/:id', async (req, res) => {
   try {
     const changes = await db('zoos')
       .where({
-        id: id
+        id
       })
       .update(updates);
     
@@ -134,6 +134,36 @@ server.put('/api/zoos/:id', async (req, res) => {
 });
 
 // D - Destroy
+server.delete('/api/zoos/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    let deleted = await db('zoos')
+      .where({
+        id
+      })
+      .del();
+    
+    deleted ?
+      res
+        .status(200)
+        .json({
+          deleted: deleted
+        })
+      :
+      res
+        .status(500)
+        .json({
+          errorMessage: 'There was a problem processing your request. Please try again.'
+        });
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        errorMessage: 'Houston we have a problem'
+      });
+  }
+})
 
 const port = 3300;
 server.listen(port, function() {
