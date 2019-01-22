@@ -2,14 +2,14 @@ const express = require('express');
 
 // Router Imports
 const zooRoutes = require('./zooRoutes');
-// const bearRoutes = require('./bearRoutes');
+const bearRoutes = require('./bearRoutes');
 
 // Router Decleration
 const router = express.Router();
 
 // Sub-Routers
 router.use('/zoos', zooRoutes);
-// router.use('/projects', bearRoutes);
+router.use('/bears', bearRoutes);
 
 
 router.use('/', (req, res) => {
