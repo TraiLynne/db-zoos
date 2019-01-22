@@ -99,7 +99,41 @@ server.get('/api/zoos/:id', async (req, res) => {
   }
 });
 
+// U - Update
+server.put('/api/zoos/:id', async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
 
+  try {
+    const changes = await db('zoos')
+      .where({
+        id: id
+      })
+      .update(updates);
+    
+    
+    changes ?
+      res
+        .status(200)
+        .json({
+          changes: changes
+        })
+      :
+      res
+        .status(500)
+        .json({
+          errorMessage: 'There was an error processing your request'
+        });
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        errorMessage: 'Houston we have a problem'
+      });
+  }
+});
+
+// D - Destroy
 
 const port = 3300;
 server.listen(port, function() {
