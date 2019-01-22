@@ -3,43 +3,27 @@ const knex = require('knex');
 const dbConfig = require('../../knexfile');
 const db = knex(dbConfig.development);
 
+// C - Create 
+const create = zoo => db('zoos').insert(zoo);
+
+// R - Read
+// All
+const readAll = () => db('zoos');
+
+// Unique
+const findById = id => db('zoos').where({ id }).first();
+
+
+// U - Update
+const update = (id, zoo) => db('zoos').where({ id }).update(zoo);
+
+// D - Destroy
+const destroy = id => db('zoos').where({ id }).del();
+
 module.exports = {
     create,
     readAll,
     findById,
     update,
     destroy
-}
-
-function create(zoo) {
-    return db('zoos')
-        .insert(zoo);
-}
-
-function readAll() {
-    return db('zoos');
-}
-
-function findById(id) {
-    return db('zoos')
-        .where({
-            id: id
-        })
-        .first();
-}
-
-function update(id, zoo) {
-    return db('zoos')
-        .where({
-            id
-        })
-        .update(zoo);
-}
-
-function destroy(id) {
-    return db('zoos')
-        .where({
-            id
-        })
-        .del();
 }
