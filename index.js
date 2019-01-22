@@ -46,6 +46,61 @@ server.post('/api/zoos', async (req, res) => {
   }
 });
 
+// R - Read 
+// All
+server.get('/api/zoos', async (req, res) => {
+  
+  try {
+    const zoos = await db('zoos')
+
+    zoos.length > 0 ?
+      res
+        .status(200)
+        .json(zoos)
+      :
+      res
+        .status(404)
+        .json({
+          errorMessage: 'There are no zoos found'
+        })
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        errorMessage: 'Houston we have a problem'
+      });
+  }
+});
+
+// Unique
+server.get('/api/zoos/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const zoo = await db('zoos').where({
+      id: id
+    })
+
+    zoo ?
+      res
+      .status(200)
+      .json(zoo) :
+      res
+      .status(404)
+      .json({
+        errorMessage: 'There is no zoo found'
+      })
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        errorMessage: 'Houston we have a problem'
+      });
+  }
+});
+
+
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
