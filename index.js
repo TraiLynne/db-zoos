@@ -1,12 +1,15 @@
 const express = require('express');
 const helmet = require('helmet');
 
+const mainRouter = require('./routers/index');
+
 const server = express();
 
 server.use(express.json());
 server.use(helmet());
 
 // endpoints here
+server.use('/api', mainRouter);
 
 const port = 3300;
 server.listen(port, function() {
